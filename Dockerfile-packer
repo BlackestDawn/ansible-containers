@@ -1,10 +1,10 @@
-# Dockerfile to expand on Ansible runner docker image
+# Dockerfile to expand on Ansible base docker image
 #
 # Version  0.1
 #
 
 # Base image
-FROM registry.gitlab.com/blackestdawn/ansible-containers:runner-latest
+FROM registry.gitlab.com/blackestdawn/ansible-containers:base-[[TAG]]
 
 # Labels and other metadata
 LABEL maintainer="Alexander <blacke4dawn@gmail.com>"
