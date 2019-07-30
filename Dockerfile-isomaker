@@ -1,0 +1,23 @@
+# Dockerfile to expand on Ansible base docker image
+#
+# Version  0.1
+#
+
+# Base image
+FROM registry.gitlab.com/blackestdawn/ansible-containers:base-[[TAG]]
+
+# Labels and other metadata
+LABEL maintainer="Alexander <blacke4dawn@gmail.com>"
+ENV DEBIAN_FRONTEND=noninteractive
+
+# All additional layers
+RUN echo "===> Installing ISO remastering tools..." && \
+  apt-get update && \
+  apt-get install -y p7zip-full cpio gzip genisoimage whois pwgen wget fakeroot isolinux xorriso && \
+
+RUN echo "===> Cleaning up..." && \
+  rm -rf /var/lib/apt/lists/* /etc/apt/sources.list.d/ansible.list && \
+  apt-get clean -y
+  
+# default command: display Ansible version
+CMD [ "ansible-playbook", "--version" ]
