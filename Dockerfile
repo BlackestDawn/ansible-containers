@@ -29,7 +29,7 @@ RUN echo "===> Adding gnupg2..." && \
     \
     echo "===> Installing Packer and addons..." && \
     wget https://releases.hashicorp.com/packer/${PACKER_VERSION}/packer_${PACKER_VERSION}_linux_amd64.zip && \
-    wget https://github.com/jetbrains-infra/packer-builder-vsphere/releases/download/${VSPHERE_ISO_VERSION}/packer-builder-vsphere-iso.linux && \
+    wget https://github.com/jetbrains-infra/packer-builder-vsphere/releases/download/v${VSPHERE_ISO_VERSION}/packer-builder-vsphere-iso.linux && \
     unzip packer_${PACKER_VERSION}_linux_amd64.zip && \
     install -m 0755 -t /usr/local/bin/ packer packer-builder-vsphere-iso.linux && \
     rm -f packer_${PACKER_VERSION}_linux_amd64.zip && \
