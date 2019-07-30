@@ -13,7 +13,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 # All additional layers
 RUN echo "===> Installing ISO remastering tools..." && \
   apt-get update && \
-  apt-get install -y p7zip-full cpio gzip genisoimage whois pwgen wget fakeroot isolinux xorriso && \
+  apt-get install -y p7zip-full cpio gzip genisoimage whois pwgen wget fakeroot isolinux xorriso
 
 RUN echo "===> Cleaning up..." && \
   rm -rf /var/lib/apt/lists/* /etc/apt/sources.list.d/ansible.list && \
