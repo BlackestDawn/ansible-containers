@@ -28,9 +28,17 @@ RUN echo "===> Installing Ansible..." && \
 RUN echo "===> Installing Python modules..." && \
   pip3 install --upgrade pywinrm pyvmomi jmespath netaddr
   
+RUN echo "===> Installing ISO remastering and Packer tools..." && \
+  apt-get install -y p7zip-full cpio gzip genisoimage whois pwgen wget unzip fakeroot isolinux xorriso && \
+  wget https://releases.hashicorp.com/packer/${PACKER_VERSION}/packer_${PACKER_VERSION}_linux_amd64.zip && \
+  wget https://github.com/jetbrains-infra/packer-builder-vsphere/releases/download/v${VSPHERE_ISO_VERSION}/packer-builder-vsphere-iso.linux && \
+  unzip packer_${PACKER_VERSION}_linux_amd64.zip && \
+  install -m 0755 -t /usr/local/bin/ packer packer-builder-vsphere-iso.linux
+
 RUN echo "===> Cleaning up..." && \
   rm -rf /var/lib/apt/lists/* /etc/apt/sources.list.d/ansible.list && \
-  apt-get clean -y
+  apt-get clean -y && \
+  rm -f packer_${PACKER_VERSION}_linux_amd64.zip
   
 RUN echo "===> Setting some Ansible options for convenience..." && \
   echo 'localhost' > /etc/ansible/hosts && \
