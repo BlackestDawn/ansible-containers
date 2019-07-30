@@ -8,15 +8,27 @@ variables:
   DOCKER_DRIVER: overlay2
   CONTAINER_IMAGE: registry.gitlab.com/blackestdawn/$CI_PROJECT_NAME
 
-before_script:
-  - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
-stages:
-  - build and stage
- 
-job 1:
-  stage: build and stage
-  script:
-    - docker build -t $CONTAINER_IMAGE:$CI_COMMIT_TAG .
-    - docker push $CONTAINER_IMAGE:$CI_COMMIT_TAG
+defaults:
   only:
     - tags
+
+before_script:
+  - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
+
+stages:
+  - make runner
+  - make builder
+
+runner:
+  stage: make runner
+  script:
+    - docker build -f Dockerfile-runner -t $CONTAINER_IMAGE:runner-$CI_COMMIT_TAG .
+    - docker push $CONTAINER_IMAGE:runner-$CI_COMMIT_TAG
+    - docker tag $CONTAINER_IMAGE:runner-$CI_COMMIT_TAG $CONTAINER_IMAGE:runner-latest
+
+builder:
+  stage: make builder
+  script:
+    - docker build -f Dockerfile-builder -t $CONTAINER_IMAGE:builder-$CI_COMMIT_TAG .
+    - docker push $CONTAINER_IMAGE:builder-$CI_COMMIT_TAG
+    - docker tag $CONTAINER_IMAGE:builder-$CI_COMMIT_TAG $CONTAINER_IMAGE:builder-latest
