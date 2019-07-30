@@ -16,5 +16,7 @@ stages:
 job 1:
   stage: build and stage
   script:
-   - docker build -t $CONTAINER_IMAGE:$CI_COMMIT_SHA .
-   - docker push $CONTAINER_IMAGE:$CI_COMMIT_SHA
+    - docker build -t $CONTAINER_IMAGE:$CI_COMMIT_TAG .
+    - docker push $CONTAINER_IMAGE:$CI_COMMIT_TAG
+  only:
+    - tags
