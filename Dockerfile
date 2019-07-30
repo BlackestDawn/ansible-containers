@@ -2,7 +2,7 @@
 #
 # @see https://launchpad.net/~ansible/+archive/ubuntu/ansible
 #
-# Version  0.0
+# Version  0.1
 #
 
 # Base image
