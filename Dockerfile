@@ -36,9 +36,8 @@ RUN echo "===> Installing ISO remastering and Packer tools..." && \
   install -m 0755 -t /usr/local/bin/ packer packer-builder-vsphere-iso.linux
 
 RUN echo "===> Cleaning up..." && \
-  rm -rf /var/lib/apt/lists/* /etc/apt/sources.list.d/ansible.list && \
-  apt-get clean -y && \
-  rm -f packer_${PACKER_VERSION}_linux_amd64.zip
+  rm -rf /var/lib/apt/lists/* /etc/apt/sources.list.d/ansible.list packer_${PACKER_VERSION}_linux_amd64.zip && \
+  apt-get clean -y
   
 RUN echo "===> Setting some Ansible options for convenience..." && \
   echo 'localhost' > /etc/ansible/hosts && \
