@@ -1,6 +1,6 @@
 image: docker:git
 
-service:
+services:
   - docker:dind
 
 variables:
