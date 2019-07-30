@@ -12,11 +12,11 @@ before_script:
   - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
 
 stages:
-  - base
-  - packer expansion
+  - base image
+  - S1 extension
 
-runner:
-  stage: base
+base:
+  stage: base image
   only:
     - tags
   script:
@@ -24,8 +24,8 @@ runner:
     - docker push $CONTAINER_IMAGE:runner-$CI_COMMIT_TAG
     - docker tag $CONTAINER_IMAGE:runner-$CI_COMMIT_TAG $CONTAINER_IMAGE:runner-latest
 
-builder:
-  stage: packer expansion
+packer:
+  stage: S1 extension
   only:
     - tags
   script:
