@@ -30,7 +30,7 @@ RUN echo "===> Adding on extra APT repos and installing extra tools..." && \
 
 RUN echo "====> Setting up Powershell and PowerCLI..." && \
   pwsh -noni -c "& {Install-Module -Name VMware.PowerCLI -Force}" && \
-  pwsh -noni -c "& {Set-PowerCLIConfiguration -Scope User -Confirm:$false -InvalidCertificateAction Ignore -ParticipateInCEIP $false }"
+  pwsh -noni -c "& {Set-PowerCLIConfiguration -Scope User -Confirm:\$false -InvalidCertificateAction Ignore -ParticipateInCEIP \$false }"
   
 RUN echo "===> Installing Packer and addons..." && \
   wget https://releases.hashicorp.com/packer/${PACKER_VERSION}/packer_${PACKER_VERSION}_linux_amd64.zip && \
