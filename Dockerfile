@@ -16,14 +16,15 @@ ENV VSPHERE_ISO_VERSION=2.3
 
 # All the different layers
 RUN echo "===> Adding on extra APT repos..." && \
-  apt-add-repository ppa:ansible/ansible-2.8 && \
+  apt-get install -y software-properties-common && \
+  add-apt-repository ppa:ansible/ansible-2.8 && \
   curl https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add && \
   curl -o /etc/apt/sources.list.d/microsoft.list https://packages.microsoft.com/config/ubuntu/18.04/prod.list
 
 RUN echo "===> Updating system and installing extra tools..." && \
   apt-get update && \
   apt-get dist-upgrade -y && \
-  apt-get install -y gnupg2 software-properties-common sshpass openssh-client wget python3 python3-pip python3-wheel p7zip-full cpio gzip genisoimage whois pwgen wget fakeroot isolinux xorriso unzip ansible powershell
+  apt-get install -y gnupg2 sshpass openssh-client wget python3 python3-pip python3-wheel p7zip-full cpio gzip genisoimage whois pwgen wget fakeroot isolinux xorriso unzip ansible powershell
 
 RUN echo "====> Setting up Powershell and PowerCLI..." && \
   powershell -noni -c "& {Set-PowerCLIConfiguration -Scope User -Confirm:$false -InvalidCertificateAction Ignore -ParticipateInCEIP $false }" && \
