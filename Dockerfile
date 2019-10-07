@@ -16,7 +16,7 @@ ENV VSPHERE_ISO_VERSION=2.3
 
 # All the different layers
 RUN echo "===> Adding on extra APT repos..." && \
-  add-apt-repository ppa:ansible/ansible-2.8 && \
+  apt-add-repository ppa:ansible/ansible-2.8 && \
   curl https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add && \
   curl -o /etc/apt/sources.list.d/microsoft.list https://packages.microsoft.com/config/ubuntu/18.04/prod.list
 
