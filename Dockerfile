@@ -16,6 +16,7 @@ ENV VSPHERE_ISO_VERSION=2.3
 
 # All the different layers
 RUN echo "===> Adding on extra APT repos..." && \
+  apt-get update && \
   apt-get install -y software-properties-common && \
   add-apt-repository ppa:ansible/ansible-2.8 && \
   curl https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add && \
