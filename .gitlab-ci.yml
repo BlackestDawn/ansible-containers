@@ -13,30 +13,11 @@ before_script:
 
 stages:
   - base image
-  - S1 extension
 
 base:
   stage: base image
   only:
     - tags
   script:
-    - docker build -f Dockerfile-base -t $CONTAINER_IMAGE:base-$CI_COMMIT_TAG .
-    - docker push $CONTAINER_IMAGE:base-$CI_COMMIT_TAG
-
-packer:
-  stage: S1 extension
-  only:
-    - tags
-  script:
-    - sed -i -e "s/\[\[TAG\]\]/$CI_COMMIT_TAG/g" Dockerfile-packer
-    - docker build -f Dockerfile-packer -t $CONTAINER_IMAGE:packer-$CI_COMMIT_TAG .
-    - docker push $CONTAINER_IMAGE:packer-$CI_COMMIT_TAG
-
-isomaker:
-  stage: S1 extension
-  only:
-    - tags
-  script:
-    - sed -i -e "s/\[\[TAG\]\]/$CI_COMMIT_TAG/g" Dockerfile-isomaker
-    - docker build -f Dockerfile-isomaker -t $CONTAINER_IMAGE:isomaker-$CI_COMMIT_TAG .
-    - docker push $CONTAINER_IMAGE:isomaker-$CI_COMMIT_TAG
+    - docker build -f Dockerfile -t $CONTAINER_IMAGE:$CI_COMMIT_TAG .
+    - docker push $CONTAINER_IMAGE:$CI_COMMIT_TAG
