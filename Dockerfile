@@ -1,8 +1,6 @@
-# Dockerfile for building Ansible image for Ubuntu 18.04 (Bionical), with as few additional software as possible.
+# Dockerfile for building Ansible runtime image
 #
 # @see https://launchpad.net/~ansible/+archive/ubuntu/ansible
-#
-# Version  0.1
 #
 
 # Base image
@@ -11,8 +9,7 @@ FROM ubuntu:18.04
 # Labels and other metadata
 LABEL maintainer="Alexander <blacke4dawn@gmail.com>"
 ENV DEBIAN_FRONTEND=noninteractive
-ENV PACKER_VERSION=1.4.4
-ENV VSPHERE_ISO_VERSION=2.3
+ENV PACKER_VERSION=1.5.5
 
 # All the different layers
 RUN echo "===> Updating system and installing necessary tools..." && \
@@ -32,14 +29,13 @@ RUN echo "====> Setting up Powershell and PowerCLI..." && \
   pwsh -noni -c "& {Install-Module -Name VMware.PowerCLI -Force}" && \
   pwsh -noni -c "& {Set-PowerCLIConfiguration -Scope User -Confirm:\$false -InvalidCertificateAction Ignore -ParticipateInCEIP \$false }"
   
-RUN echo "===> Installing Packer and addons..." && \
+RUN echo "===> Installing Packer..." && \
   wget https://releases.hashicorp.com/packer/${PACKER_VERSION}/packer_${PACKER_VERSION}_linux_amd64.zip && \
-  wget https://github.com/jetbrains-infra/packer-builder-vsphere/releases/download/v${VSPHERE_ISO_VERSION}/packer-builder-vsphere-iso.linux && \
   unzip packer_${PACKER_VERSION}_linux_amd64.zip && \
-  install -m 0755 -t /usr/local/bin/ packer packer-builder-vsphere-iso.linux
+  install -m 0755 -t /usr/local/bin/ packer
 
 RUN echo "===> Cleaning up..." && \
-  rm -rf /var/lib/apt/lists/* /etc/apt/sources.list.d/ansible.list packer_${PACKER_VERSION}_linux_amd64.zip packer-builder-vsphere-iso.linux ./key-file && \
+  rm -rf /var/lib/apt/lists/* /etc/apt/sources.list.d/ansible.list packer_${PACKER_VERSION}_linux_amd64.zip ./key-file && \
   apt-get clean -y
   
 RUN echo "===> Setting some Ansible options for convenience..." && \
