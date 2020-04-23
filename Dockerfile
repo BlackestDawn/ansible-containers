@@ -26,7 +26,7 @@ RUN echo "===> Updating system and installing necessary tools..." && \
   apk add --no-cache --virtual ./iso-tools p7zip cpio gzip cdrkit whois pwgen fakeroot syslinux xorriso unzip gettext && \
   apk add --no-cache --virtual ./build-deps python3-dev gcc musl-dev libffi-dev openssl-dev && \
   python3 -m pip --no-cache-dir install -U pip wheel setuptools && \
-  pip3 --no-cache-dir install -U ansible==${ANSIBLE_VERSION} pyvmomi>=6.7.1.2018.12 jmespath>=0.9.4 pynetbox>=3.4.7
+  pip3 --no-cache-dir install -U "ansible==${ANSIBLE_VERSION}" "pyvmomi>=6.7.1.2018.12" "jmespath>=0.9.4" "pynetbox>=3.4.7"
 
 # RUN echo "====> Setting up Powershell and PowerCLI..." && \
 #   pwsh -noni -c "& {Install-Module -Name VMware.PowerCLI -Force}" && \
