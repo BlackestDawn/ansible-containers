@@ -21,10 +21,12 @@ ENV ANSIBLE_PYTHON_INTERPRETER=/usr/bin/python3
 # All the different layers
 RUN echo "===> Updating system and installing necessary tools..." && \
   apk update && \
-  apk upgrade -U -a && \
-  apk add gnupg sshpass openssh-client wget python3 curl python3-dev gcc musl-dev libffi-dev openssl-dev p7zip cpio gzip cdrkit whois pwgen fakeroot syslinux xorriso unzip && \
-  python3 -m pip install -U pip wheel setuptools && \
-  pip3 install -U ansible==${ANSIBLE_VERSION} pyvmomi>=6.7.1.2018.12 jmespath>=0.9.4 pynetbox>=3.4.7
+  apk upgrade --no-cache -U -a && \
+  apk add --no-cache gnupg sshpass openssh-client wget python3 curl && \
+  apk add --no-cache --virtual ./iso-tools p7zip cpio gzip cdrkit whois pwgen fakeroot syslinux xorriso unzip gettext && \
+  apk add --no-cache --virtual ./build-deps python3-dev gcc musl-dev libffi-dev openssl-dev && \
+  python3 -m pip --no-cache-dir install -U pip wheel setuptools && \
+  pip3 --no-cache-dir install -U ansible==${ANSIBLE_VERSION} pyvmomi>=6.7.1.2018.12 jmespath>=0.9.4 pynetbox>=3.4.7
 
 # RUN echo "====> Setting up Powershell and PowerCLI..." && \
 #   pwsh -noni -c "& {Install-Module -Name VMware.PowerCLI -Force}" && \
@@ -36,8 +38,8 @@ RUN echo "===> Installing Packer..." && \
   install -m 0755 -t /usr/local/bin/ packer
 
 RUN echo "===> Cleaning up..." && \
-  apk del python3-dev gcc musl-dev libffi-dev openssl-dev && \
-  rm -rf packer_${PACKER_VERSION}_linux_amd64.zip ./key-file
+  apk del --purge ./build-deps && \
+  rm -rf packer_${PACKER_VERSION}_linux_amd64.zip ./key-file /var/cache/apk/
   
 RUN echo "===> Setting some Ansible options for convenience..." && \
   mkdir /etc/ansible && \
